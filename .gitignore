@@ -1,4 +1,5 @@
 .DS_Store
+internal/
 xcuserdata/
 *.xcuserstate
 DerivedData/
