@@ -1,5 +1,6 @@
 import AppKit
 import Carbon.HIToolbox
+import CoreGraphics
 import ScreenCaptureKit
 import UserNotifications
 
@@ -11,11 +12,34 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var shortcutMenuItem: NSMenuItem!
     private var saveToMenuItem: NSMenuItem!
     private var shortcutPanel: ShortcutRecorderPanel?
+    private var onboardingController: OnboardingWindowController?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         setupStatusItem()
+
+        let bothGranted = HotkeyManager.isAccessibilityGranted() && CGPreflightScreenCaptureAccess()
+        if prefs.hasCompletedOnboarding || bothGranted {
+            if bothGranted && !prefs.hasCompletedOnboarding {
+                prefs.hasCompletedOnboarding = true
+            }
+            finishLaunch()
+        } else {
+            showOnboarding()
+        }
+    }
+
+    private func finishLaunch() {
         registerHotkey()
-        requestPermissions()
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { _, _ in }
+    }
+
+    private func showOnboarding() {
+        let controller = OnboardingWindowController { [weak self] in
+            self?.onboardingController = nil
+            self?.finishLaunch()
+        }
+        onboardingController = controller
+        controller.show()
     }
 
     // MARK: - Status Item
@@ -135,49 +159,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         alert.informativeText = error.localizedDescription
         alert.alertStyle = .warning
         alert.runModal()
-    }
-
-    // MARK: - Permissions
-
-    private func requestPermissions() {
-        // Accessibility permission for global hotkey monitoring
-        if !HotkeyManager.isAccessibilityGranted() {
-            showAccessibilityAlert()
-        }
-
-        // Screen capture permission (probe to trigger system prompt)
-        Task {
-            do {
-                try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true)
-            } catch {
-                await MainActor.run { self.showScreenCapturePermissionAlert() }
-            }
-        }
-
-        // Notification permission (best-effort)
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { _, _ in }
-    }
-
-    private func showAccessibilityAlert() {
-        let alert = NSAlert()
-        alert.messageText = "Accessibility Permission Required"
-        alert.informativeText = "ScreenCap needs Accessibility access to listen for your global keyboard shortcut.\n\nClick \"Open System Settings\" and enable ScreenCap under Privacy & Security → Accessibility."
-        alert.addButton(withTitle: "Open System Settings")
-        alert.addButton(withTitle: "Later")
-        if alert.runModal() == .alertFirstButtonReturn {
-            HotkeyManager.requestAccessibility()
-        }
-    }
-
-    private func showScreenCapturePermissionAlert() {
-        let alert = NSAlert()
-        alert.messageText = "Screen Recording Permission Required"
-        alert.informativeText = "ScreenCap needs Screen Recording access.\n\nOpen System Settings → Privacy & Security → Screen Recording and enable ScreenCap."
-        alert.addButton(withTitle: "Open System Settings")
-        alert.addButton(withTitle: "Later")
-        if alert.runModal() == .alertFirstButtonReturn {
-            NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture")!)
-        }
     }
 
     // MARK: - Hotkey

@@ -9,6 +9,12 @@ final class Preferences {
         case saveDirectoryBookmark
         case hotkeyKeyCode
         case hotkeyModifiers
+        case hasCompletedOnboarding
+    }
+
+    var hasCompletedOnboarding: Bool {
+        get { defaults.bool(forKey: Key.hasCompletedOnboarding.rawValue) }
+        set { defaults.set(newValue, forKey: Key.hasCompletedOnboarding.rawValue) }
     }
 
     var saveDirectory: URL {

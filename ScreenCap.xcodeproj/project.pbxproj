@@ -14,6 +14,7 @@
 		AA000005 /* ScreenCaptureService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000005 /* ScreenCaptureService.swift */; };
 		AA000006 /* CountdownOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000006 /* CountdownOverlay.swift */; };
 		AA000007 /* ShortcutRecorderPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000007 /* ShortcutRecorderPanel.swift */; };
+		AA000011 /* OnboardingWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000012 /* OnboardingWindowController.swift */; };
 		AA000008 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB000008 /* Carbon.framework */; };
 		AA000009 /* ScreenCaptureKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB000009 /* ScreenCaptureKit.framework */; };
 		AA000010 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB000010 /* UserNotifications.framework */; };
@@ -31,6 +32,7 @@
 		BB000009 /* ScreenCaptureKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScreenCaptureKit.framework; path = System/Library/Frameworks/ScreenCaptureKit.framework; sourceTree = SDKROOT; };
 		BB000010 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		BB000011 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BB000012 /* OnboardingWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWindowController.swift; sourceTree = "<group>"; };
 		CC000001 /* ScreenCap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScreenCap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -67,6 +69,7 @@
 				BB000005 /* ScreenCaptureService.swift */,
 				BB000006 /* CountdownOverlay.swift */,
 				BB000007 /* ShortcutRecorderPanel.swift */,
+				BB000012 /* OnboardingWindowController.swift */,
 				BB000011 /* Info.plist */,
 			);
 			path = ScreenCap;
@@ -165,6 +168,7 @@
 				AA000005 /* ScreenCaptureService.swift in Sources */,
 				AA000006 /* CountdownOverlay.swift in Sources */,
 				AA000007 /* ShortcutRecorderPanel.swift in Sources */,
+				AA000011 /* OnboardingWindowController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,7 +308,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.0.4;
+				MARKETING_VERSION = 0.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = org.afaik.ScreenCap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -329,7 +333,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.0.4;
+				MARKETING_VERSION = 0.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = org.afaik.ScreenCap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
