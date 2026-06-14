@@ -44,6 +44,19 @@ Single-target macOS app (`LSUIElement = YES` — menubar only, no Dock icon). No
 
 `MARKETING_VERSION` in `ScreenCap.xcodeproj/project.pbxproj` follows `X.Y.Z`. **Bump Z on every commit that adds or changes code/functionality.** Do not bump for documentation or chore commits (gitignore, CLAUDE.md, build config tweaks, etc.). Both `XCBuildConfiguration` blocks (Debug `FF000021` and Release `FF000022`) must be updated together.
 
+## Scripts
+
+- **`scripts/deploy-local.sh`** — builds the app, signs it with the first available Apple Development certificate (falls back to ad-hoc with a warning), stops any running instance, rsyncs to `/Applications/ScreenCap.app`, and launches it. Signing happens on the DerivedData copy *before* the rsync so TCC remembers the stable designated requirement across builds.
+- **`scripts/reset.sh`** — kills the app, wipes `UserDefaults`, and revokes both Accessibility and Screen Recording TCC grants. Returns the app to its pre-first-launch state, which triggers the onboarding flow on next launch.
+
+## Documentation
+
+The `Documentation/` directory contains end-user and contributor docs:
+
+- `permissions-setup.md` — manual steps for granting Accessibility + Screen Recording
+- `building-from-source.md` — full build walkthrough using `deploy-local.sh`
+- `architecture.md` — architecture overview for contributors (no Claude Code–specific notes)
+
 ## Output files
 
 Screenshots are saved as `ScreenCap yyyy-MM-dd at HH.mm.ss.png` in the configured directory (default `~/Downloads`).
