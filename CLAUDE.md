@@ -56,5 +56,5 @@ Screenshots are saved as `ScreenCap yyyy-MM-dd at HH.mm.ss.png` in the configure
 To reset all preferences during development:
 
 ```bash
-defaults delete com.screencap.app
+defaults delete org.afaik.ScreenCap
 ```

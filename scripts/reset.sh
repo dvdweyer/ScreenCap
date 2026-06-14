@@ -3,7 +3,7 @@
 # kills the app, wipes UserDefaults, and revokes all three permission grants.
 set -euo pipefail
 
-BUNDLE_ID="com.screencap.app"
+BUNDLE_ID="org.afaik.ScreenCap"
 
 echo "Stopping ScreenCap (if running)…"
 killall ScreenCap 2>/dev/null && sleep 0.5 || true
