@@ -36,23 +36,32 @@ enum ScreenCaptureService {
     @available(macOS 14.2, *)
     private static func captureWithScreenshotManager(display: SCDisplay, to directory: URL) async throws -> URL {
         let filter = SCContentFilter(display: display, excludingWindows: [])
+        // Use SCKit's own pointPixelScale, not CGDisplayPixelsWide. The native
+        // panel pixel count diverges from SCKit's rendering resolution when a
+        // scaled display mode is active ("More Space", etc.), causing SCKit to
+        // resample and blur. display.width/height are in points; multiplying by
+        // pointPixelScale gives the exact pixel dimensions SCKit renders at.
+        let scale = Double(filter.pointPixelScale)
         let config = SCStreamConfiguration()
-        config.width = Int(CGDisplayPixelsWide(display.displayID))
-        config.height = Int(CGDisplayPixelsHigh(display.displayID))
+        config.width = Int(Double(display.width) * scale)
+        config.height = Int(Double(display.height) * scale)
         config.showsCursor = false
 
         let cgImage = try await SCScreenshotManager.captureImage(contentFilter: filter,
                                                                   configuration: config)
-        return try save(image: cgImage, to: directory)
+        return try save(image: cgImage, scale: scale, to: directory)
     }
 
     // MARK: - macOS 13.0
 
     private static func captureWithStream(display: SCDisplay, to directory: URL) async throws -> URL {
         let filter = SCContentFilter(display: display, excludingWindows: [])
+        let scale = NSScreen.screens
+            .first(where: { $0.displayID == display.displayID })
+            .map { $0.backingScaleFactor } ?? 1.0
         let config = SCStreamConfiguration()
-        config.width = Int(CGDisplayPixelsWide(display.displayID))
-        config.height = Int(CGDisplayPixelsHigh(display.displayID))
+        config.width = Int(Double(display.width) * scale)
+        config.height = Int(Double(display.height) * scale)
         config.showsCursor = false
         config.minimumFrameInterval = CMTime(value: 1, timescale: 1)
 
@@ -63,19 +72,27 @@ enum ScreenCaptureService {
         let cgImage = try await capturer.waitForFrame()
         try await stream.stopCapture()
 
-        return try save(image: cgImage, to: directory)
+        return try save(image: cgImage, scale: scale, to: directory)
     }
 
     // MARK: - Shared
 
-    private static func save(image: CGImage, to directory: URL) throws -> URL {
+    private static func save(image: CGImage, scale: Double, to directory: URL) throws -> URL {
         let url = directory.appendingPathComponent("ScreenCap \(timestamp()).png")
         guard let dest = CGImageDestinationCreateWithURL(url as CFURL,
                                                          UTType.png.identifier as CFString,
                                                          1, nil) else {
             throw CaptureError.writeFailed(url)
         }
-        CGImageDestinationAddImage(dest, image, nil)
+        // Embed DPI so apps display the image at the correct physical size.
+        // Without this, a 2x Retina screenshot would open at 2× the intended
+        // dimensions in Preview (72 DPI instead of 144 DPI).
+        let dpi = 72.0 * scale
+        let properties: [CFString: Any] = [
+            kCGImagePropertyDPIWidth: dpi,
+            kCGImagePropertyDPIHeight: dpi
+        ]
+        CGImageDestinationAddImage(dest, image, properties as CFDictionary)
         guard CGImageDestinationFinalize(dest) else { throw CaptureError.writeFailed(url) }
         return url
     }
