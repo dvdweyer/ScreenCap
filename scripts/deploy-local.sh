@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
-# Builds ScreenCap, installs it to /Applications, and launches it.
+# Builds ScreenCap, signs it with the Apple Development certificate, installs
+# it to /Applications, and launches it.
 #
-# Using a fixed install path + a real Developer certificate keeps the
-# code-signing designated requirement stable across builds, so TCC
-# (Accessibility, Screen Recording, Notifications) remembers previously
-# granted permissions and does not re-prompt.
+# Signing happens on the DerivedData copy BEFORE rsyncing to /Applications.
+# This means the binary in /Applications always carries the same stable
+# designated requirement (Apple Development cert), so TCC remembers
+# Accessibility / Screen Recording / Notifications across builds.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -14,14 +15,14 @@ CONFIG="Debug"
 APP_NAME="ScreenCap.app"
 INSTALL_PATH="/Applications/$APP_NAME"
 
-# Prefer a real Developer cert for a stable TCC identity; fall back to ad-hoc.
-# Ad-hoc (-) ties identity to the binary hash, so TCC will re-prompt after
-# every build. Avoid it if any Developer cert is available.
+# Prefer a real Developer cert; fall back to ad-hoc with a warning.
+# Ad-hoc ties the designated requirement to the binary hash, which changes
+# every build and causes TCC to re-prompt.
 IDENTITY=$(security find-identity -v -p codesigning 2>/dev/null \
   | awk -F'"' '/Apple Development|Developer ID/{print $2; exit}')
 if [[ -z "$IDENTITY" ]]; then
   echo "WARNING: No Developer certificate found -- falling back to ad-hoc signing."
-  echo "         TCC may re-prompt for permissions after each build."
+  echo "         TCC will re-prompt for permissions after each build."
   IDENTITY="-"
 fi
 
@@ -32,6 +33,15 @@ xcodebuild -project "$PROJECT" -scheme "$SCHEME" -configuration "$CONFIG" build 
 BUILD_DIR=$(xcodebuild -project "$PROJECT" -scheme "$SCHEME" \
   -configuration "$CONFIG" -showBuildSettings 2>/dev/null \
   | awk '/^ *BUILT_PRODUCTS_DIR/{print $3}')
+BUILT_APP="$BUILD_DIR/$APP_NAME"
+
+# Sign the DerivedData copy BEFORE installing.
+# Signing after rsync would invalidate any TCC entry that was created for
+# the previously-installed signature.
+if [[ "$IDENTITY" != "-" ]]; then
+  echo "==> Signing with: $IDENTITY"
+  codesign --force --deep --sign "$IDENTITY" --options runtime "$BUILT_APP"
+fi
 
 if pgrep -x ScreenCap &>/dev/null; then
   echo "==> Stopping running instance..."
@@ -40,12 +50,7 @@ if pgrep -x ScreenCap &>/dev/null; then
 fi
 
 echo "==> Installing to $INSTALL_PATH"
-# rsync updates in place rather than replacing the bundle, keeping the
-# install path stable in TCC even if permissions were already granted.
-rsync -a --delete "$BUILD_DIR/$APP_NAME/" "$INSTALL_PATH/"
-
-echo "==> Signing with: $IDENTITY"
-codesign --force --deep --sign "$IDENTITY" "$INSTALL_PATH"
+rsync -a --delete "$BUILT_APP/" "$INSTALL_PATH/"
 
 echo "==> Launching..."
 open "$INSTALL_PATH"
