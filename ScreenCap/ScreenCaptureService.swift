@@ -37,8 +37,8 @@ enum ScreenCaptureService {
     private static func captureWithScreenshotManager(display: SCDisplay, to directory: URL) async throws -> URL {
         let filter = SCContentFilter(display: display, excludingWindows: [])
         let config = SCStreamConfiguration()
-        config.width = display.width
-        config.height = display.height
+        config.width = Int(CGDisplayPixelsWide(display.displayID))
+        config.height = Int(CGDisplayPixelsHigh(display.displayID))
         config.showsCursor = false
 
         let cgImage = try await SCScreenshotManager.captureImage(contentFilter: filter,
@@ -51,8 +51,8 @@ enum ScreenCaptureService {
     private static func captureWithStream(display: SCDisplay, to directory: URL) async throws -> URL {
         let filter = SCContentFilter(display: display, excludingWindows: [])
         let config = SCStreamConfiguration()
-        config.width = display.width
-        config.height = display.height
+        config.width = Int(CGDisplayPixelsWide(display.displayID))
+        config.height = Int(CGDisplayPixelsHigh(display.displayID))
         config.showsCursor = false
         config.minimumFrameInterval = CMTime(value: 1, timescale: 1)
 
