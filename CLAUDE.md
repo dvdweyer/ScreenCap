@@ -40,7 +40,21 @@ Single-target macOS app (`LSUIElement = YES` — menubar only, no Dock icon). No
 - `SCScreenshotManager.captureImage` requires macOS 14.2+; the `SCStream`-based path in `ScreenCaptureService` handles macOS 13–14.1.
 - SourceKit will show false "cannot find X in scope" errors for cross-file symbols outside an Xcode project context — these are indexing artifacts, not real errors.
 
+## Versioning
+
+`MARKETING_VERSION` in `ScreenCap.xcodeproj/project.pbxproj` follows `X.Y.Z`. **Bump Z on every commit that adds or changes code/functionality.** Do not bump for documentation or chore commits (gitignore, CLAUDE.md, build config tweaks, etc.). Both `XCBuildConfiguration` blocks (Debug `FF000021` and Release `FF000022`) must be updated together.
+
+## Output files
+
+Screenshots are saved as `ScreenCap yyyy-MM-dd at HH.mm.ss.png` in the configured directory (default `~/Downloads`).
+
 ## Required permissions (both needed at runtime)
 
 - **Accessibility** — for the global hotkey monitor (`NSEvent.addGlobalMonitorForEvents`)
 - **Screen Recording** — for `SCShareableContent` / `ScreenCaptureKit`
+
+To reset all preferences during development:
+
+```bash
+defaults delete com.screencap.app
+```
