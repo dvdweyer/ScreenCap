@@ -15,23 +15,23 @@ final class ShortcutRecorderPanel {
                             styleMask: [.titled, .closable, .nonactivatingPanel],
                             backing: .buffered,
                             defer: false)
-        panel.title = "Set Shortcut"
+        panel.title = NSLocalizedString("Set Shortcut", comment: "Panel title")
         panel.level = .floating
         panel.isReleasedWhenClosed = false
 
-        let prompt = NSTextField(labelWithString: "Press a key combination…")
+        let prompt = NSTextField(labelWithString: NSLocalizedString("Press a key combination…", comment: "Prompt in shortcut recorder"))
         prompt.frame = NSRect(x: 20, y: 70, width: 280, height: 24)
         prompt.alignment = .center
         panel.contentView?.addSubview(prompt)
 
-        let hint = NSTextField(labelWithString: "Include at least one modifier key (⌘, ⌃, ⌥, ⇧)")
+        let hint = NSTextField(labelWithString: NSLocalizedString("Include at least one modifier key (⌘, ⌃, ⌥, ⇧)", comment: "Hint in shortcut recorder"))
         hint.frame = NSRect(x: 20, y: 46, width: 280, height: 18)
         hint.alignment = .center
         hint.font = .systemFont(ofSize: 11)
         hint.textColor = .secondaryLabelColor
         panel.contentView?.addSubview(hint)
 
-        let cancel = NSButton(title: "Cancel", target: self, action: #selector(cancelPressed))
+        let cancel = NSButton(title: NSLocalizedString("Cancel", comment: "Button to cancel shortcut recording"), target: self, action: #selector(cancelPressed))
         cancel.frame = NSRect(x: 110, y: 12, width: 100, height: 26)
         cancel.bezelStyle = .rounded
         panel.contentView?.addSubview(cancel)

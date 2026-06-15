@@ -16,6 +16,8 @@
 		AA000007 /* ShortcutRecorderPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000007 /* ShortcutRecorderPanel.swift */; };
 		AA000011 /* OnboardingWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000012 /* OnboardingWindowController.swift */; };
 		AA000012 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB000013 /* Assets.xcassets */; };
+		AA100001 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BB100002 /* Localizable.strings */; };
+		AA100002 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BB100004 /* InfoPlist.strings */; };
 		AA000008 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB000008 /* Carbon.framework */; };
 		AA000009 /* ScreenCaptureKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB000009 /* ScreenCaptureKit.framework */; };
 		AA000010 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB000010 /* UserNotifications.framework */; };
@@ -35,8 +37,29 @@
 		BB000011 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB000012 /* OnboardingWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWindowController.swift; sourceTree = "<group>"; };
 		BB000013 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BB100001 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BB100003 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CC000001 /* ScreenCap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScreenCap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXVariantGroup section */
+		BB100002 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BB100001 /* de */,
+			);
+			name = "Localizable.strings";
+			sourceTree = "<group>";
+		};
+		BB100004 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BB100003 /* de */,
+			);
+			name = "InfoPlist.strings";
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		DD000001 /* Frameworks */ = {
@@ -73,6 +96,8 @@
 				BB000007 /* ShortcutRecorderPanel.swift */,
 				BB000012 /* OnboardingWindowController.swift */,
 				BB000013 /* Assets.xcassets */,
+				BB100002 /* Localizable.strings */,
+				BB100004 /* InfoPlist.strings */,
 				BB000011 /* Info.plist */,
 			);
 			path = ScreenCap;
@@ -138,6 +163,7 @@
 			knownRegions = (
 				en,
 				Base,
+				de,
 			);
 			mainGroup = EE000001;
 			productRefGroup = EE000004 /* Products */;
@@ -155,6 +181,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA000012 /* Assets.xcassets in Resources */,
+				AA100001 /* Localizable.strings in Resources */,
+				AA100002 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,7 +341,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.0.6;
+				MARKETING_VERSION = 0.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = org.afaik.ScreenCap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -339,7 +367,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.0.6;
+				MARKETING_VERSION = 0.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = org.afaik.ScreenCap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

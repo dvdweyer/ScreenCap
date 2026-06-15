@@ -42,7 +42,7 @@ final class OnboardingWindowController: NSObject, NSWindowDelegate {
             backing: .buffered,
             defer: false
         )
-        w.title = "Welcome to ScreenCap"
+        w.title = NSLocalizedString("Welcome to ScreenCap", comment: "Onboarding window title")
         w.isReleasedWhenClosed = false
         w.center()
         w.delegate = self
@@ -75,7 +75,7 @@ final class OnboardingWindowController: NSObject, NSWindowDelegate {
 
     private func showPermissionStep(isAccessibility: Bool) {
         let stepLabel = makeLabel(
-            "\(currentIndex + 1) of \(pendingSteps.count)",
+            String(format: NSLocalizedString("%d of %d", comment: "Step counter, e.g. '1 of 3'"), currentIndex + 1, pendingSteps.count),
             fontSize: 11, color: .tertiaryLabelColor
         )
         stepLabel.frame = NSRect(x: 380, y: 292, width: 88, height: 16)
@@ -88,24 +88,26 @@ final class OnboardingWindowController: NSObject, NSWindowDelegate {
         icon.frame = NSRect(x: 216, y: 236, width: 48, height: 48)
 
         let title = makeLabel(
-            isAccessibility ? "Enable Accessibility Access" : "Enable Screen Recording",
+            isAccessibility
+                ? NSLocalizedString("Enable Accessibility Access", comment: "Permission step title")
+                : NSLocalizedString("Enable Screen Recording", comment: "Permission step title"),
             fontSize: 17, bold: true
         )
         title.frame = NSRect(x: 20, y: 192, width: 440, height: 24)
         title.alignment = .center
 
         let bodyText = isAccessibility
-            ? "ScreenCap needs Accessibility permission to detect your global keyboard shortcut.\n\nClick \"Open System Settings\", then enable ScreenCap under Privacy & Security → Accessibility."
-            : "ScreenCap needs Screen Recording permission to capture your screen.\n\nClick \"Open System Settings\", then enable ScreenCap under Privacy & Security → Screen Recording."
+            ? NSLocalizedString("ScreenCap needs Accessibility permission to detect your global keyboard shortcut.\n\nClick \"Open System Settings\", then enable ScreenCap under Privacy & Security → Accessibility.", comment: "Accessibility permission step body")
+            : NSLocalizedString("ScreenCap needs Screen Recording permission to capture your screen.\n\nClick \"Open System Settings\", then enable ScreenCap under Privacy & Security → Screen Recording.", comment: "Screen recording permission step body")
         let body = makeLabel(bodyText, fontSize: 13, color: .secondaryLabelColor)
         body.frame = NSRect(x: 20, y: 90, width: 440, height: 96)
         body.alignment = .center
 
-        let laterBtn = NSButton(title: "Later", target: self, action: #selector(laterPressed))
+        let laterBtn = NSButton(title: NSLocalizedString("Later", comment: "Button to skip permission step"), target: self, action: #selector(laterPressed))
         laterBtn.frame = NSRect(x: 20, y: 20, width: 80, height: 32)
         laterBtn.bezelStyle = .rounded
 
-        let openBtn = NSButton(title: "Open System Settings", target: self,
+        let openBtn = NSButton(title: NSLocalizedString("Open System Settings", comment: "Button to open System Settings"), target: self,
                                action: isAccessibility ? #selector(openAccessibilitySettings) : #selector(openScreenRecordingSettings))
         openBtn.frame = NSRect(x: 284, y: 20, width: 176, height: 32)
         openBtn.bezelStyle = .rounded
@@ -133,29 +135,29 @@ final class OnboardingWindowController: NSObject, NSWindowDelegate {
 
     private func showSettingsStep() {
         let stepLabel = makeLabel(
-            "\(currentIndex + 1) of \(pendingSteps.count)",
+            String(format: NSLocalizedString("%d of %d", comment: "Step counter, e.g. '1 of 3'"), currentIndex + 1, pendingSteps.count),
             fontSize: 11, color: .tertiaryLabelColor
         )
         stepLabel.frame = NSRect(x: 380, y: 292, width: 88, height: 16)
         stepLabel.alignment = .right
 
-        let title = makeLabel("You're all set!", fontSize: 17, bold: true)
+        let title = makeLabel(NSLocalizedString("You're all set!", comment: "Settings step title"), fontSize: 17, bold: true)
         title.frame = NSRect(x: 20, y: 260, width: 440, height: 24)
         title.alignment = .center
 
-        let subtitle = makeLabel("Confirm your settings before you start.", fontSize: 13, color: .secondaryLabelColor)
+        let subtitle = makeLabel(NSLocalizedString("Confirm your settings before you start.", comment: "Settings step subtitle"), fontSize: 13, color: .secondaryLabelColor)
         subtitle.frame = NSRect(x: 20, y: 232, width: 440, height: 18)
         subtitle.alignment = .center
 
         // Shortcut row
-        let shortcutHeading = makeLabel("Keyboard Shortcut", fontSize: 13)
+        let shortcutHeading = makeLabel(NSLocalizedString("Keyboard Shortcut", comment: "Label for keyboard shortcut setting"), fontSize: 13)
         shortcutHeading.frame = NSRect(x: 40, y: 178, width: 160, height: 18)
 
         let shortcutVal = makeLabel(currentShortcutString(), fontSize: 13, bold: true)
         shortcutVal.frame = NSRect(x: 210, y: 178, width: 160, height: 18)
         shortcutValueLabel = shortcutVal
 
-        let changeShortcutBtn = NSButton(title: "Change…", target: self, action: #selector(changeShortcutPressed))
+        let changeShortcutBtn = NSButton(title: NSLocalizedString("Change…", comment: "Button to change a setting"), target: self, action: #selector(changeShortcutPressed))
         changeShortcutBtn.frame = NSRect(x: 374, y: 172, width: 86, height: 26)
         changeShortcutBtn.bezelStyle = .rounded
 
@@ -165,7 +167,7 @@ final class OnboardingWindowController: NSObject, NSWindowDelegate {
         sep1.frame = NSRect(x: 40, y: 160, width: 420, height: 1)
 
         // Save folder row
-        let folderHeading = makeLabel("Save Screenshots To", fontSize: 13)
+        let folderHeading = makeLabel(NSLocalizedString("Save Screenshots To", comment: "Label for save folder setting"), fontSize: 13)
         folderHeading.frame = NSRect(x: 40, y: 130, width: 160, height: 18)
 
         let folderVal = makeLabel(currentSaveFolderString(), fontSize: 13, bold: true)
@@ -173,7 +175,7 @@ final class OnboardingWindowController: NSObject, NSWindowDelegate {
         folderVal.lineBreakMode = .byTruncatingMiddle
         saveFolderValueLabel = folderVal
 
-        let changeFolderBtn = NSButton(title: "Change…", target: self, action: #selector(changeFolderPressed))
+        let changeFolderBtn = NSButton(title: NSLocalizedString("Change…", comment: "Button to change a setting"), target: self, action: #selector(changeFolderPressed))
         changeFolderBtn.frame = NSRect(x: 374, y: 124, width: 86, height: 26)
         changeFolderBtn.bezelStyle = .rounded
 
@@ -181,7 +183,7 @@ final class OnboardingWindowController: NSObject, NSWindowDelegate {
         sep2.boxType = .separator
         sep2.frame = NSRect(x: 40, y: 112, width: 420, height: 1)
 
-        let doneBtn = NSButton(title: "Done", target: self, action: #selector(donePressed))
+        let doneBtn = NSButton(title: NSLocalizedString("Done", comment: "Button to finish onboarding"), target: self, action: #selector(donePressed))
         doneBtn.frame = NSRect(x: 360, y: 20, width: 100, height: 32)
         doneBtn.bezelStyle = .rounded
         doneBtn.keyEquivalent = "\r"
@@ -208,8 +210,8 @@ final class OnboardingWindowController: NSObject, NSWindowDelegate {
         panel.canChooseFiles = false
         panel.canChooseDirectories = true
         panel.allowsMultipleSelection = false
-        panel.prompt = "Select"
-        panel.message = "Choose a folder for saved screenshots."
+        panel.prompt = NSLocalizedString("Select", comment: "Button label in folder picker")
+        panel.message = NSLocalizedString("Choose a folder for saved screenshots.", comment: "Prompt in folder picker")
         panel.directoryURL = Preferences.shared.saveDirectory
         panel.beginSheetModal(for: window) { [weak self] response in
             guard let self, response == .OK, let url = panel.url else { return }

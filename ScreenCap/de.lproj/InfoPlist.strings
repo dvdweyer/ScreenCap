@@ -1,0 +1,2 @@
+NSScreenCaptureUsageDescription = "ScreenCap benötigt Zugriff auf die Bildschirmaufnahme, um Screenshots zu erstellen.";
+NSAccessibilityUsageDescription = "ScreenCap benötigt Zugriff auf die Bedienungshilfen, um Ihren globalen Tastaturkurzbefehl zu erkennen.";

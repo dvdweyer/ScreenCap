@@ -52,7 +52,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         let menu = NSMenu()
 
-        let captureItem = NSMenuItem(title: "Take Screenshot", action: #selector(takeScreenshot), keyEquivalent: "")
+        let captureItem = NSMenuItem(title: NSLocalizedString("Take Screenshot", comment: "Menu item"), action: #selector(takeScreenshot), keyEquivalent: "")
         captureItem.target = self
         menu.addItem(captureItem)
 
@@ -68,7 +68,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         menu.addItem(.separator())
 
-        let quitItem = NSMenuItem(title: "Quit ScreenCap", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        let quitItem = NSMenuItem(title: NSLocalizedString("Quit ScreenCap", comment: "Menu item"), action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
         menu.addItem(quitItem)
 
         statusItem.menu = menu
@@ -97,8 +97,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         panel.canChooseFiles = false
         panel.canChooseDirectories = true
         panel.allowsMultipleSelection = false
-        panel.prompt = "Select"
-        panel.message = "Choose a folder for saved screenshots."
+        panel.prompt = NSLocalizedString("Select", comment: "Button label in folder picker")
+        panel.message = NSLocalizedString("Choose a folder for saved screenshots.", comment: "Prompt in folder picker")
         panel.directoryURL = prefs.saveDirectory
 
         panel.begin { [weak self] response in
@@ -143,7 +143,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func notifySuccess(filename: String) {
         let content = UNMutableNotificationContent()
-        content.title = "Screenshot Saved"
+        content.title = NSLocalizedString("Screenshot Saved", comment: "Notification title")
         content.body = filename
         content.sound = .default
 
@@ -155,7 +155,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func showError(_ error: Error) {
         let alert = NSAlert()
-        alert.messageText = "Screenshot Failed"
+        alert.messageText = NSLocalizedString("Screenshot Failed", comment: "Alert title")
         alert.informativeText = error.localizedDescription
         alert.alertStyle = .warning
         alert.runModal()
@@ -175,7 +175,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func shortcutLabel() -> String {
         let mods = HotkeyManager.modifierString(carbonModifiers: prefs.hotkeyModifiers)
         let key  = HotkeyManager.keyName(forKeyCode: prefs.hotkeyKeyCode)
-        return "Shortcut: \(mods)\(key)"
+        return String(format: NSLocalizedString("Shortcut: %@", comment: "Hotkey label in menu"), "\(mods)\(key)")
     }
 
     private func saveToLabel() -> String {
@@ -184,7 +184,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let display = dir.path.hasPrefix(home)
             ? "~" + dir.path.dropFirst(home.count)
             : dir.path
-        return "Save to: \(display)"
+        return String(format: NSLocalizedString("Save to: %@", comment: "Save path label in menu"), display)
     }
 }
 
