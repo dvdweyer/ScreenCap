@@ -14,13 +14,13 @@
 		AA000005 /* ScreenCaptureService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000005 /* ScreenCaptureService.swift */; };
 		AA000006 /* CountdownOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000006 /* CountdownOverlay.swift */; };
 		AA000007 /* ShortcutRecorderPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000007 /* ShortcutRecorderPanel.swift */; };
+		AA000008 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB000008 /* Carbon.framework */; };
+		AA000009 /* ScreenCaptureKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB000009 /* ScreenCaptureKit.framework */; };
+		AA000010 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB000010 /* UserNotifications.framework */; };
 		AA000011 /* OnboardingWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000012 /* OnboardingWindowController.swift */; };
 		AA000012 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB000013 /* Assets.xcassets */; };
 		AA100001 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BB100002 /* Localizable.strings */; };
 		AA100002 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BB100004 /* InfoPlist.strings */; };
-		AA000008 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB000008 /* Carbon.framework */; };
-		AA000009 /* ScreenCaptureKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB000009 /* ScreenCaptureKit.framework */; };
-		AA000010 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB000010 /* UserNotifications.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,25 +41,6 @@
 		BB100003 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CC000001 /* ScreenCap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScreenCap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
-
-/* Begin PBXVariantGroup section */
-		BB100002 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BB100001 /* de */,
-			);
-			name = "Localizable.strings";
-			sourceTree = "<group>";
-		};
-		BB100004 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BB100003 /* de */,
-			);
-			name = "InfoPlist.strings";
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		DD000001 /* Frameworks */ = {
@@ -149,7 +130,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 2650;
 				TargetAttributes = {
 					FF000001 = {
 						CreatedOnToolsVersion = 15.0;
@@ -206,12 +187,32 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXVariantGroup section */
+		BB100002 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BB100001 /* de */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		BB100004 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BB100003 /* de */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		FF000011 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -241,6 +242,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -264,6 +266,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -274,6 +277,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -303,6 +307,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -318,6 +323,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
@@ -331,6 +337,7 @@
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ScreenCap/Info.plist;
@@ -341,7 +348,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.0.7;
+				MARKETING_VERSION = 0.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = org.afaik.ScreenCap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -357,6 +364,7 @@
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ScreenCap/Info.plist;
@@ -367,7 +375,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.0.7;
+				MARKETING_VERSION = 0.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = org.afaik.ScreenCap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
